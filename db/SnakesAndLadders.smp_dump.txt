@@ -1,0 +1,56 @@
+
+State Machine - |SnakesAndLadders|control:c1|currentState
+Name currentState.S_P2_DrawP2 currentState.S_P2_DrawP1 currentState.S_P2_Load currentState.S_P2_Wait currentState.S_P2 currentState.S_P1_afterDice currentState.S_P1_Dice currentState.S_P1_beforeDice currentState.S_P1_DrawP2 currentState.S_P1_DrawP1 currentState.S_P1_Load currentState.S_P1_Wait currentState.S_P1 currentState.S_P2_afterDice currentState.S_P2_Dice currentState.S_P2_beforeDice currentState.S_beginGameDrawP2 currentState.S_beginGameP2 currentState.S_beginGameP2BG currentState.S_beginGameDrawP1 currentState.S_beginGameP1 currentState.S_beginGameP1BG currentState.S_startScreenWait currentState.S_startScreen currentState.S_beforeStart 
+currentState.S_beforeStart 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+currentState.S_startScreen 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+currentState.S_startScreenWait 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+currentState.S_beginGameP1BG 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+currentState.S_beginGameP1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+currentState.S_beginGameDrawP1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+currentState.S_beginGameP2BG 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+currentState.S_beginGameP2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+currentState.S_beginGameDrawP2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+currentState.S_P2_beforeDice 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+currentState.S_P2_Dice 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P2_afterDice 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1_Wait 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1_Load 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1_DrawP1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1_DrawP2 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1_beforeDice 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1_Dice 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P1_afterDice 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P2 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P2_Wait 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P2_Load 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P2_DrawP1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+currentState.S_P2_DrawP2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |SnakesAndLadders|control:c1|nextState
+Name nextState.S_P2_DrawP2 nextState.S_P2_DrawP1 nextState.S_P2_Load nextState.S_P2_Wait nextState.S_P2 nextState.S_P1_afterDice nextState.S_P1_Dice nextState.S_P1_beforeDice nextState.S_P1_DrawP2 nextState.S_P1_DrawP1 nextState.S_P1_Load nextState.S_P1_Wait nextState.S_P1 nextState.S_P2_afterDice nextState.S_P2_Dice nextState.S_P2_beforeDice nextState.S_beginGameDrawP2 nextState.S_beginGameP2 nextState.S_beginGameP2BG nextState.S_beginGameDrawP1 nextState.S_beginGameP1 nextState.S_beginGameP1BG nextState.S_startScreenWait nextState.S_startScreen nextState.S_beforeStart 
+nextState.S_beforeStart 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+nextState.S_startScreen 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+nextState.S_startScreenWait 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+nextState.S_beginGameP1BG 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+nextState.S_beginGameP1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+nextState.S_beginGameDrawP1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+nextState.S_beginGameP2BG 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+nextState.S_beginGameP2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+nextState.S_beginGameDrawP2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+nextState.S_P2_beforeDice 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+nextState.S_P2_Dice 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P2_afterDice 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1_Wait 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1_Load 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1_DrawP1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1_DrawP2 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1_beforeDice 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1_Dice 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P1_afterDice 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P2 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P2_Wait 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P2_Load 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P2_DrawP1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+nextState.S_P2_DrawP2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 

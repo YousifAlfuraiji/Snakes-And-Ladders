@@ -1,0 +1,237 @@
+
+module SnakesAndLadders(
+ input [1:0]KEY,
+ input CLOCK_50,
+ output [6:0]HEX0,
+ output [6:0]HEX2,
+ output [6:0]HEX3,
+ output [6:0]HEX4,
+ output [6:0]HEX5,
+ output VGA_CLK, output VGA_HS, output VGA_VS, output VGA_BLANK_N, output VGA_SYNC_N, 
+ output [9:0]VGA_R, output [9:0]VGA_G, output [9:0]VGA_B);
+ 
+ //output VGA_CLK, VGA_HS, VGA_VS, VGA_BLANK_N, VGA_SYNC_N;
+ //output [9:0] VGA_R, VGA_G, VGA_B;
+
+
+ wire [2:0]diceVal;
+ 
+ wire play = ~KEY[0];
+ wire reset = ~KEY[1];
+ 
+ wire ld_P1, ld_P2, ld_begin_game;
+ 
+ wire [6:0] positionP1;
+ wire [6:0] positionP2;
+ 
+ wire [3:0]xloc, yloc;
+ 
+ 
+ getCoordinates(positionP1, xloc, yloc);
+	
+	
+ vga_adapter VGA(.resetn(reset), .clock(CLOCK_50), .colour(3'b0), .x(xloc), .y(yloc), .plot(1'b0), .VGA_R(VGA_R), .VGA_G(VGA_G), 
+		.VGA_B(VGA_B), .VGA_HS(VGA_HS), .VGA_VS(VGA_VS), .VGA_BLANK(VGA_BLANK_N), .VGA_SYNC(VGA_SYNC_N), .VGA_CLK(VGA_CLK));
+		
+	defparam VGA.RESOLUTION = "320x240";
+	defparam VGA.MONOCHROME = "FALSE";
+	defparam VGA.BITS_PER_COLOUR_CHANNEL = 8;
+	defparam VGA.BACKGROUND_IMAGE = "board1.mif";
+
+ 
+ dice d1(CLOCK_50, play, diceVal);
+ 
+ control c1(play, reset, CLOCK_50, ld_P1, ld_P2, ld_begin_game);
+ dataPath d2(diceVal, play, reset, CLOCK_50, ld_P1, ld_P2, ld_begin_game, positionP1, positionP2);
+ 
+ hex_decoder H0({1'b0, diceVal}, HEX0);
+ 
+ hex_decoder H2(positionP1 % 7'd10, HEX2);
+ hex_decoder H3(positionP1 / 7'd10 , HEX3);
+ 
+ hex_decoder H4(positionP2 % 7'd10 , HEX4);
+ hex_decoder H5(positionP2 / 7'd10 , HEX5);
+ 
+ 
+endmodule
+
+module control(play, reset, clock, ld_P1, ld_P2, ld_begin_game);
+ 
+ input play, reset, clock;
+ output reg ld_P1, ld_P2, ld_begin_game;
+ reg [2:0]currentState, nextState;
+ localparam S_beginGame = 3'd0,
+	S_P1	= 3'd1,
+ 	S_P1_Wait   = 3'd2,
+	S_P1_Load = 3'd3,
+ 	S_P2	= 3'd4,
+ 	S_P2_Wait   = 3'd5,
+	S_P2_Load = 3'd6;
+ 	
+ always@(posedge clock)
+ begin
+  case(currentState)
+	S_beginGame: 		nextState = S_P1;
+   S_P1:					nextState = play ? S_P1_Wait : S_P1;
+   S_P1_Wait:  		nextState = play ? S_P1_Wait : S_P1_Load;
+	S_P1_Load: 			nextState = S_P2;
+   S_P2:   				nextState = play ? S_P2_Wait : S_P2;
+   S_P2_Wait:  		nextState = play ? S_P2_Wait : S_P2_Load;
+	S_P2_Load:			nextState = S_P1; 
+   default:				nextState = S_beginGame;
+  endcase
+
+  ld_begin_game = 1'b0;
+  ld_P1 = 1'b0;
+  ld_P2 = 1'b0;
+ 
+  case(currentState)
+	
+	S_beginGame: begin
+	ld_begin_game = 1'b1;
+   ld_P1 = 1'b0;
+   ld_P2 = 1'b0;
+   end
+	
+   S_P1_Load: begin
+	ld_begin_game = 1'b0;
+   ld_P1 = 1'b1;
+   ld_P2 = 1'b0;
+   end
+	
+   S_P2_Load: begin
+	ld_begin_game = 1'b0;
+   ld_P1 = 1'b0;
+   ld_P2 = 1'b1;
+   end
+  endcase
+ 
+  if(reset)
+   currentState <= S_beginGame;
+  else
+   currentState <= nextState;
+ end
+endmodule
+
+module dataPath(diceVal, play, reset, clock, ld_P1, ld_P2, ld_begin_game, positionP1, positionP2);
+ input [2:0]diceVal;
+ input play, reset, clock;
+ input ld_P1, ld_P2, ld_begin_game;
+
+ output reg [6:0]positionP1;
+ output reg [6:0]positionP2;
+ 
+ always@(posedge clock)
+ begin
+ 
+ if(ld_begin_game)
+ begin
+	positionP1 <= 7'd1;
+	positionP2 <= 7'd1;
+ end
+ else if(ld_P1)
+	positionP1 <= positionP1 + diceVal;
+ else if(ld_P2)
+	positionP2 <= positionP2 + diceVal;
+ end
+endmodule
+
+module dice(input clock, input readIn, output reg [2:0]roll);
+ reg [2:0]count = 3'd1;
+ always @(posedge clock)
+  begin
+ 
+   if(count >= 3'd6)
+	count <= 3'd1;
+   else
+	count <= count + 3'd1;
+  end
+ 
+ always @(posedge readIn)
+  begin
+   roll <= count;
+  end
+endmodule
+
+module hex_decoder(hex_digit, segments);
+	input [3:0] hex_digit;
+	output reg [6:0] segments;
+ 
+	always @(*)
+    	case (hex_digit)
+        	4'h0: segments = 7'b100_0000;
+        	4'h1: segments = 7'b111_1001;
+        	4'h2: segments = 7'b010_0100;
+        	4'h3: segments = 7'b011_0000;
+        	4'h4: segments = 7'b001_1001;
+        	4'h5: segments = 7'b001_0010;
+        	4'h6: segments = 7'b000_0010;
+        	4'h7: segments = 7'b111_1000;
+        	4'h8: segments = 7'b000_0000;
+        	4'h9: segments = 7'b001_1000;
+        	4'hA: segments = 7'b100_0000;
+        	4'hB: segments = 7'b111_1001;
+        	4'hC: segments = 7'b010_0100;
+        	4'hD: segments = 7'b011_0000;
+        	4'hE: segments = 7'b001_1001;
+        	4'hF: segments = 7'b001_0010;
+        	default: segments = 7'b0000000;
+    	endcase
+endmodule
+
+
+module getCoordinates(
+	input [6:0]position,
+	output [3:0]x,
+	output [3:0]y);
+	reg [3:0]xReg;
+	reg [3:0]yReg;
+	
+	always @(*)
+	begin
+ 
+  if((position >= 7'd1  && position <= 7'd9 ) ||
+   (position >= 7'd21 && position <= 7'd29) ||
+   (position >= 7'd41 && position <= 7'd49) ||
+   (position >= 7'd61 && position <= 7'd69) ||
+   (position >= 7'd81 && position <= 7'd89))
+   begin
+	xReg <= position%7'd10-7'd1;
+	yReg <= 7'd9-position/7'd10;
+   end
+  else if((position >= 7'd11 && position <= 7'd19) ||
+  	(position >= 7'd31 && position <= 7'd39) ||
+  	(position >= 7'd51 && position <= 7'd59) ||
+  	(position >= 7'd71 && position <= 7'd79) ||
+  	(position >= 7'd91 && position <= 7'd99))
+  	begin
+   	xReg <= 7'd9-(position%7'd10-7'd1);
+   	yReg <= 7'd9-position/7'd10;
+  	end
+  else if(position == 7'd20 ||
+  	position == 7'd40 ||
+  	position == 7'd60 ||
+  	position == 7'd80 ||
+  	position == 7'd100)
+  	begin
+  	xReg <= 7'd0;
+  	yReg <= 7'd10 - position/7'd10;
+	end
+  else if(position == 7'd10 ||
+	position == 7'd30 ||
+	position == 7'd50 ||
+	position == 7'd70 ||
+	position == 7'd90)
+	begin
+  	xReg <= 7'd9;
+  	yReg <= 7'd10 - position/7'd10;
+	end	
+ end
+	assign x = xReg;
+	assign y = yReg;
+endmodule
+
+
+
+
+
